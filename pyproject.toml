@@ -1,0 +1,34 @@
+[tool.poetry]
+name = "beanie-demo"
+version = "0.1.0"
+description = "This is a demo of beanie library."
+authors = ["Thibault Djaballah <thibault.djaballah@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+fastapi = "^0.104.1"
+beanie = "^1.23.6"
+pydantic-settings = "^2.1.0"
+uvicorn = "^0.24.0.post1"
+ruff = "^0.1.7"
+
+[tool.ruff.lint]
+select = [
+    # pycodestyle
+    "E",
+    # Pyflakes
+    "F",
+    # pyupgrade
+    "UP",
+    # flake8-bugbear
+    "B",
+    # flake8-simplify
+    "SIM",
+    # isort
+    "I",
+]
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

@@ -1,1 +1,1 @@
-# beanie-demo
+# Beanie Demo
