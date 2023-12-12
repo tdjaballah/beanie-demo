@@ -31,7 +31,7 @@ async def get_all() -> List[Employee]:
     return employees
 
 
-@employee_router.delete("/{id}")
+@employee_router.delete("/{employee_id}")
 async def delete(employee_id: PydanticObjectId) -> Employee:
     if (employee := await Employee.get(employee_id)) is not None:
         await employee.delete()
@@ -41,3 +41,9 @@ async def delete(employee_id: PydanticObjectId) -> Employee:
             status_code=404,
             detail=f"Employee with id: {employee_id} not found!"
         )
+
+
+@employee_router.delete("/")
+async def delete_all() -> None:
+    await Employee.delete_all()
+    return None
