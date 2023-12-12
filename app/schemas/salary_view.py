@@ -15,8 +15,7 @@ class Salary(View):
             {
                 "$group": {
                     "_id": "$job_title",
-                    "total_salary": {"$sum": "$salary"},
+                    "nb_employees": {"$sum": 1},
                 }
             },
         ]
-

@@ -3,7 +3,6 @@ from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):
-    http_port: int = 8080
     mongodb_url: MongoDsn
 
 

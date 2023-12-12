@@ -1,22 +1,22 @@
 from typing import List
 
-from beanie import PydanticObjectId, WriteRules
+from beanie import PydanticObjectId
 from fastapi import APIRouter, HTTPException
 
-from app.schemas.employee import Employee, EmployeeSummary, EmployeeCreate
+from app.schemas.employee import Employee, EmployeeCreate
 
 employee_router = APIRouter(prefix="/employee", tags=["Employee"])
 
 
 @employee_router.post("/")
 async def add(employee: EmployeeCreate) -> Employee:
-    employee = await Employee(**employee.model_dump()).insert(link_rule=WriteRules.WRITE)
+    employee = await Employee(**employee.model_dump()).insert()
     return employee
 
 
 @employee_router.get("/{employee_id}")
 async def get(employee_id: PydanticObjectId) -> Employee:
-    if (employee := await Employee.get(employee_id, fetch_links=True)) is not None:
+    if (employee := await Employee.get(employee_id)) is not None:
         return employee
     else:
         raise HTTPException(
@@ -26,14 +26,14 @@ async def get(employee_id: PydanticObjectId) -> Employee:
 
 
 @employee_router.get("/")
-async def get_all() -> List[EmployeeSummary]:
-    employees = await Employee.find_all().project(EmployeeSummary).to_list()
+async def get_all() -> List[Employee]:
+    employees = await Employee.find_all().to_list()
     return employees
 
 
 @employee_router.delete("/{id}")
 async def delete(employee_id: PydanticObjectId) -> Employee:
-    if (employee := await Employee.get(id)) is not None:
+    if (employee := await Employee.get(employee_id)) is not None:
         await employee.delete()
         return employee
     else:

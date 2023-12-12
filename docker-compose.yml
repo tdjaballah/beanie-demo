@@ -18,40 +18,6 @@ services:
         "--bind_ip_all",
       ]
 
-  mongodb2:
-    container_name: mongo2
-    image: mongo
-    volumes:
-      - ./volumes/mongodb2:/data/db
-    ports:
-      - "27012:27012"
-    expose:
-      - "27012"
-    entrypoint:
-      [
-        "/usr/bin/mongod",
-        "--port", "27012",
-        "--replSet", "rs0",
-        "--bind_ip_all",
-      ]
-
-  mongodb3:
-    container_name: mongo3
-    image: mongo
-    volumes:
-      - ./volumes/mongodb3:/data/db
-    ports:
-      - "27013:27013"
-    expose:
-      - "27013"
-    entrypoint:
-      [
-        "/usr/bin/mongod",
-        "--port", "27013",
-        "--replSet", "rs0",
-        "--bind_ip_all",
-      ]
-
   mongosetup:
     container_name: mongosetup
     image: "mongo-setup"
@@ -63,10 +29,10 @@ services:
     container_name: mongo-express
     image: mongo-express
     environment:
-      ME_CONFIG_MONGODB_URL: mongodb://mongodb1:27011,mongodb2:27012,mongodb3:27013/?replicaSet=rs0
+      ME_CONFIG_MONGODB_URL: mongodb://mongodb1:27011/beanie_demo?replicaSet=rs0
     ports:
       - 8081:8081
-    restart: on-failure
+    restart: always
     depends_on:
       - mongodb1
       - mongosetup
